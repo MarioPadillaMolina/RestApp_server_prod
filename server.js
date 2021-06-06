@@ -4,6 +4,8 @@ const port = process.env.PORT || 80
 //wire up the module
 const express = require('express');
 
+var history = require('connect-history-api-fallback');
+
 //https configuration
 const https = require("https"),
   fs = require("fs"),
@@ -31,10 +33,12 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(history())
+
 // bind the request to an absolute path or relative to the CWD
 app.use(express.static('../RestApp_vue/dist'))
 
 // start the server
 app.listen(port, () => console.log(`Listening on port ${port}`))
 
-https.createServer(options, app).listen(443)
+https.createServer(options, app).listen(443, () => console.log("Listening on por 443"))
